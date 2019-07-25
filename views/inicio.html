@@ -1,0 +1,20 @@
+	  <div class="row">
+      <div class="col-3"></div>
+	    <div class="col-6">
+	      <!-- <h3 class="text text-center">Buscar</h3> -->
+
+	      <div class="input-group">
+          <input id="buscar" ng-model="selected" type="text" class="form-control" 
+          uib-typeahead="paciente as (paciente.apellido + ', ' + paciente.nombre) for paciente in pacientes |
+          filter:$viewValue | limitTo:8" typeahead-on-select="getPaciente($item.id)"
+          typeahead-focus-on-select="true" placeholder="Buscar Paciente"
+          >
+	        <div class="input-group-append">
+	          <span class="input-group-text">x</span>
+	        </div>
+	      </div>
+      </div>
+      <div class="col-3"></div>
+	  </div>
+
+  

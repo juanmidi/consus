@@ -1,0 +1,115 @@
+<html ng-app="cdg">
+	<head>
+		<title>J-Consultorio</title>
+		<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<link href="css/awesome/all.min.css" rel="stylesheet">
+		<!-- editor de texto wysiwyg -->
+		<link rel="stylesheet" href="vendor/trumbowyg/ui/trumbowyg.min.css">
+		<link rel="stylesheet" type="text/css" href="css/sweetalert.css">
+
+
+
+
+		<!-- meta charset="utf-8" -->
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script type="text/javascript" src="vendor/jquery-3.2.1.min.js"></script>
+
+	<!-- jQuery -->
+	<script>window.$ = window.jQuery = require('jquery');</script>
+
+
+	<!-- Bootstrap -->
+	<script src="bootstrap/js/bootstrap.js"></script>
+
+	<!-- Angular -->
+	<script src="node_modules/angular/angular.js"></script>
+	<!-- Angular - Pagination -->
+	<script src="node_modules/angular-utils-pagination/dirPagination.js"></script>
+
+<!-- editor de texto wysiwyg -->
+<script type="text/javascript" src="vendor/trumbowyg/trumbowyg.min.js"></script>
+<script type="text/javascript" src="vendor/trumbowyg/langs/es.min.js"></script>
+
+
+
+	<!-- App -->
+	<script src="app.js"></script>
+	
+	<!-- Controllers -->
+	<!-- <script src="controllers/pessoaController.js"></script> -->
+	<script src="controllers/controller.js"></script>
+	<script src="directives/directives.js"></script>
+	<!-- <script src="controllers/pacientesController.js"></script> -->
+	<!-- <script src="controllers/uploadController.js"></script> -->
+	
+	<!-- Services -->
+	<script src="services/dbService.js"></script>
+	<script src="vendor/ui-bootstrap-tpls-3.0.6.min.js"></script>
+	<script src="vendor/angular-sanitize.js"></script>
+	<script src="vendor/contextMenu.js"></script>
+	<script src="vendor/sweetalert.min.js"></script>
+
+</head>
+<body>
+	<!-- Menu -->
+
+<!-- 
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<a class="navbar-brand" href="#"><i class="fas fa-clinic-medical fa-2x iconcolor1"></i></a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+		aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+		<div class="navbar-nav">
+			<a class="nav-item nav-link active" href="#!">Inicio <span class="sr-only">(current)</span></a>
+			<a class="nav-item nav-link" href="#!/lista">Listado</a>
+			<a class="nav-item nav-link navbar-right"" href=" #!/po">po </a>
+		</div>
+	</div>
+</nav> -->
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<a class="navbar-brand" href="#"><i class="fas fa-clinic-medical fa-2x iconcolor1"></i></a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+		aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+
+	<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+		<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+			<li class="nav-item active">
+				<a class="nav-link" href="#!">Inicio <span class="sr-only">(current)</span></a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#!/lista">Listado</a>
+			</li>
+		</ul>
+		<ul class="navbar-nav ml-auto">
+			<li class="nav-item">
+				<a class="nav-link"  href="#!/config"><i class="fas fa-cog iconcolor3"></i></a>
+			</li>
+		</ul>
+	</div>
+</nav>
+<br>
+
+	<!-- Onde será carregada a view -->
+	<div ng-view="" class="container-fluid"></div>
+	<!-- Rodapé -->
+<nav class="navbar fixed-bottom navbar-light bg-light">
+	<!-- <a class="navbar-brand" href="#">Creado por Juanjo.</a> -->
+<span class="text-muted">Creado por Juanjo</span>
+</nav>
+
+</body>
+<script>
+	$('.navbar-nav>li>a').not(".dropdown-toggle").on('click', function () {
+		$('.navbar-collapse').collapse('hide');
+	});
+</script>
+</html>

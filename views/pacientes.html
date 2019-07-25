@@ -1,0 +1,68 @@
+<div class="row">
+	<div class="col-md-8">
+		<button class="btn btn-primary" data-toggle="modal" data-target="#modalPaciente"><span class="glyphicon glyphicon-plus"></span> nuevo Paciente</button>
+	</div>
+	<div class="col-md-4">
+		<input class="form-control" placeholder="buscar" ng-model="buscar">
+	</div>
+</div>
+<hr>
+<div class="row">
+	<div class="col-md-12">
+		<table class="table table-striped" ng-init="listaPacientes()">
+			<thead>
+				<th>Apellido</th>
+				<th>Nombre</th>
+			</thead>
+			<tbody>
+				<!-- Listagem -->
+				<tr dir-paginate="paciente in pacientes|filter:buscar|itemsPerPage:8">
+					<td>{{paciente.apellido}}</td>
+					<td>{{paciente.nombre}}</td>
+					<td>
+						<button class="btn btn-info btn-xs" ng-click="editar(paciente)"><span class="glyphicon glyphicon-pencil"></span>
+							Editar</button>
+						<button class="btn btn-danger btn-xs" ng-click="excluir(paciente)"><span class="glyphicon glyphicon-trash"></span>
+							Excluir</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<!-- Paginação -->
+<div class="row">
+	<div class="col-md-12 text-center">
+		<dir-pagination-controls>
+	    </dir-pagination-controls>
+	</div>
+</div>
+
+<!-- Modal Cadastro e Edição -->
+<!-- <div class="modal fade" id="modalPaciente" tabindex="-1" role="dialog" >
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Paciente</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-6">
+						<label>Nombre</label>
+						<input class="form-control" type="text" ng-model="paciente.nombre">
+					</div>
+					<div class="col-md-6">
+						<label>E-mail</label>
+						<input class="form-control" type="text" ng-model="paciente.apellido">
+					</div>
+				</div>
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" ng-click="paciente = {}" data-dismiss="modal">Cancelar</button>
+				<button type="button" class="btn btn-primary" ng-click="salvar()">Salvar</button>
+			</div>
+		</div>
+	</div>
+</div> -->

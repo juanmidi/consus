@@ -1,0 +1,160 @@
+
+
+<div class="card">
+
+<!-- Tostada -->
+<div id="tostada" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000"
+  style="position: absolute; top: 1rem; right: 1rem;">
+  <div class="toast-header">
+    <i class="fas fa-clinic-medical fa-1x iconcolor1"></i>
+    <strong class="mr-auto">&nbsp; Sistema</strong>
+    <!-- <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button> -->
+  </div>
+  <div id="msg" class="toast-body">
+    msg
+  </div>
+</div>
+
+  <!-- Tarjeta -->
+  <div class="card-header">
+    {{paciente.apellido}}, {{paciente.nombre}} <button class="btn btn-sm iconcolor3" ng-click="editarPaciente()"><i
+        class="fas fa-pencil-alt"></i>
+    </button>
+  </div>
+  <div class="card-body">
+    <nav>
+      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" data-target="#motiv" role="tab"
+          aria-controls="nav-home" aria-selected="true" href=""><i class="fas fa-notes-medical fa-2x iconcolor2"></i>
+          Motivo de
+          consulta</a>
+        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" data-target="#evolu" role="tab"
+          aria-controls="nav-profile" aria-selected="false" href=""><i class="fas fa-stethoscope fa-2x iconcolor2"></i>
+          Evolución</a>
+        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" data-target="#imag" role="tab"
+          aria-controls="nav-contact" aria-selected="false" href=""><i class="fas fa-x-ray fa-2x iconcolor2"></i>
+          Imágenes</a>
+      </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+      <div class="tab-pane fade show active" id="motiv" role="tabpanel" aria-labelledby="nav-home-tab">
+        <div id="motivo"></div>
+      </div>
+      <div class="tab-pane fade" id="evolu" role="tabpanel" aria-labelledby="nav-profile-tab">
+        <div id="evolucion"></div>
+      </div>
+      <!-- imagenes -->
+      <div class="tab-pane fade" id="imag" role="tabpanel" aria-labelledby="nav-contact-tab">
+        <nav class="navbar navbar-expand-sm bg-light">
+
+          <!-- Links -->
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" ng-click="cargarArchivo(paciente.documento)" href=""><button
+                  class="btn btn-outline-secondary color2">
+                  <i class="fas fa-upload"></i></button></a>
+            </li>
+
+          </ul>
+
+        </nav>
+        <br>
+        <div class="container">
+          <div class="row justify-content-md-center">
+            <div class="card-deck">
+              <div id="imgcont" ng-repeat="imagen in imagenes" ng-click="seleccionar('imagen-'+$index)"
+                context-menu="menuOptions">
+
+
+
+                <div class="card imagenes" ng-dblclick="abrirArchivo(mydir+slashFolder+imagen)">
+                  <img id="imagen-{{$index}}" ng-src="{{mydir}}{{slashFolder}}{{imagen}}"
+                    ng-show="isImage(imagen.substring(imagen.lastIndexOf('.') + 1))"
+                    class="col-xs-4 img-fluid img-thumbnail" alt="">
+                  <div class="card-body">
+                    <p class="card-text">{{imagen}}</p>
+                  </div>
+                </div>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+</div>
+
+
+<div class="modal fade" id="editar-paciente" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Editar Paciente</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form role="form"  name="myForm">
+          <div class="form-group">
+            <label for="Apellido" class="col-form-label">Apellido:</label>
+            <input type="text" ng-model="paciente.apellido" class="form-control" name="apellido">
+            <span class="error" ng-show="myForm.apellido.$error.required">El Documento es
+            obligatorio</span>
+          </div>
+          <div class="form-group">
+            <label for="nombre" class="col-form-label">Nombre:</label>
+            <input type="text" ng-model="paciente.nombre" class="form-control" name="nombre">
+            <span class="error" ng-show="myForm.nombre.$error.required">El Documento es
+            obligatorio</span>
+          </div>
+          <div class="form-group">
+            <label for="documento" class="col-form-label">Documento:</label>
+            <input type="text" ng-model="paciente.documento" class="form-control" name="documento" required />
+            <span class="error"  ng-show="myForm.documento.$error.required">El Documento es
+              obligatorio</span>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="cancelarEdicion()">Cerrar</button>
+        <button type="button" class="btn btn-primary" 
+          ng-disabled="isClean() || myForm.$invalid" ng-click="modificarPaciente()">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- para Edición     -->
+<!-- <div class="form-row">
+      <div class="col-sm-4">
+        <div class="form-group">
+          <label for="apellido">Apellido</label>
+          <input class="form-control" type=" text" name="apellido" ng-model="paciente.apellido" readonly>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <div class="form-group">
+          <label for="apellido">Nombre</label>
+          <input class="form-control" type="text" name="Nombre" ng-model="paciente.nombre" readonly>
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+        <div class="form-group">
+          <label for="Documento">Documento</label>
+          <input class="form-control" type="text" name="Documento" ng-model="paciente.documento" readonly>
+        </div>
+      </div>
+    </div> -->

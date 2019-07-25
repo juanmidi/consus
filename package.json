@@ -1,0 +1,46 @@
+{
+  "name": "j-consultorio",
+  "version": "1.0.0",
+  "description": "App para consultorios médicos.",
+  "main": "main.js",
+  "author": "Juan Monteleone",
+  "build": {
+    "appId": "yourappid",
+    "category": "your.app.category.type"
+  },
+  "scripts": {
+    "start": "electron main.js",
+    "win32": "electron-packager . myApp --platform=win32 --arch=ia32",
+    "win64": "electron-packager . myApp --platform=win32 --arch=x64",
+    "linux32": "electron-packager . myApp --platform=linux --arch=ia32",
+    "linux64": "electron-packager . myApp --platform=linux --arch=x64",
+    "osx": "electron-packager . myApp --platform=darwin --arch=x64",
+    "build": "electron-packager . --all",
+    "mono": "electron-installer-dmg ./release-builds/Electron\\ tutorial\\ app-darwin-x64/Electron\\ tutorial\\ app.app electron-tutorial-app",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds",
+    "package-win": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Electron Tutorial App\""
+  },
+  "devDependencies": {
+    "angular": "^1.7.8",
+    "angular-route": "^1.5.1",
+    "angular-utils-pagination": "^0.11.0",
+    "electron-builder": "^20.44.4",
+    "electron-installer-dmg": "^3.0.0",
+    "electron-packager": "^6.0.0",
+    "electron-prebuilt": "^0.36.0",
+    "jquery": "^2.2.2",
+    "sqlite-sync": "^0.2.1"
+  },
+  "dependencies": {
+    "angular-animate": "^1.7.8",
+    "angular-bootstrap-contextmenu": "^1.2.1",
+    "angular-sanitize": "^1.7.8",
+    "angular-touch": "^1.7.8",
+    "bootstrap": "^4.3.1",
+    "escape-html": "^1.0.3",
+    "html-escaper": "^1.0.1",
+    "ng-quill": "^4.5.1",
+    "quill": "^1.3.6",
+    "textangular": "^1.5.16"
+  }
+}

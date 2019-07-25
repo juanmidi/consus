@@ -1,0 +1,36 @@
+.iconcolor1 {
+  color: rgb(181, 10, 233);
+
+}
+
+.iconcolor2 {
+  color: rgb(181, 10, 233);
+}
+
+.iconcolor3 {
+  color: rgb(114, 114, 114);
+}
+
+.bgcolor2 {
+  background-color: rgb(242, 198, 255);
+}
+
+.imagenes {
+  width: 200px;
+  height: auto;
+  padding: 20px;
+}
+
+
+.form-horizontal input.ng-invalid.ng-dirty {
+  border-color: #FA787E;
+}
+
+.form-horizontal input.ng-valid.ng-dirty {
+  border-color: #78FA89;
+}
+
+.error {
+  color: red !important;
+}
+
