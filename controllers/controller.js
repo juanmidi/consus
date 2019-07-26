@@ -151,7 +151,7 @@ $scope.editarPaciente = function () {
 	$scope.cargarArchivo = function (documento) {
 		// var imgFolder = remote.getGlobal('configuracion').imgFolder;
 		dialog.showOpenDialog({
-			properties: ['multiSelections']
+			properties: ['openFile','multiSelections']
 		}, (fileNames) => {
 			// fileNames is an array that contains all the selected
 			if (fileNames === undefined) {
