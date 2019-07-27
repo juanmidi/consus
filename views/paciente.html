@@ -107,19 +107,22 @@
         <form role="form"  name="myForm">
           <div class="form-group">
             <label for="Apellido" class="col-form-label">Apellido:</label>
-            <input type="text" ng-model="paciente.apellido" class="form-control" name="apellido">
-            <span class="error" ng-show="myForm.apellido.$error.required">El Documento es
+            <input type="text" ng-model="paciente.apellido" class="form-control" name="apellido" required>
+            <span class="error" ng-show="myForm.apellido.$error.required">El apellido es
             obligatorio</span>
           </div>
           <div class="form-group">
             <label for="nombre" class="col-form-label">Nombre:</label>
-            <input type="text" ng-model="paciente.nombre" class="form-control" name="nombre">
-            <span class="error" ng-show="myForm.nombre.$error.required">El Documento es
+            <input type="text" ng-model="paciente.nombre" class="form-control" name="nombre" required>
+            <span class="error" ng-show="myForm.nombre.$error.required">El nombre es
             obligatorio</span>
           </div>
           <div class="form-group">
             <label for="documento" class="col-form-label">Documento:</label>
-            <input type="text" ng-model="paciente.documento" class="form-control" name="documento" required />
+            <input disallow-spaces ng-keyup="checarDocumento(paciente.documento)" type="text"
+              ng-model="paciente.documento" class="form-control" name="documento"
+              required />
+              <span class="error" ng-show="existeUsuario">Ya existe el DNI</span>
             <span class="error"  ng-show="myForm.documento.$error.required">El Documento es
               obligatorio</span>
           </div>
@@ -128,7 +131,7 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="cancelarEdicion()">Cerrar</button>
         <button type="button" class="btn btn-primary" 
-          ng-disabled="isClean() || myForm.$invalid" ng-click="modificarPaciente()">Aceptar</button>
+          ng-disabled="isClean() || myForm.$invalid || existeUsuario" ng-click="modificarPaciente()">Aceptar</button>
       </div>
     </div>
   </div>
