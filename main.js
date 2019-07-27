@@ -10,19 +10,30 @@ global.configuracion = {
   slashFolder: '\\'
 };
 
-// referência global para manter a instância da janela até que sejam fechadas pelo usuário então ele irá ser fechado quando o JavaScript fizer Garbage collection
+// referencia global para mantener la instancia de la ventana hasta que el usuario la cierre, por lo que se cerrará cuando JavaScript realice la recolección de basura
 var mainWindow = null;
 
 
-// Sair da aplicação quando todas as janelas forem fechadas
+// Salir de la aplicación cuando todas las ventanas están cerradas
 app.on('window-all-closed', function() {
   if (process.platform !== 'darwin') {
     app.quit();
   }
 });
 
+// app.on('window-all-closed', function () {
+//       if (process.platform !== 'darwin') {
+//         app.quit();
+//       }
+//     });
+
+// app.on('before-quit', function () {
+//   mainWindow.removeAllListeners('close');
+//   mainWindow.close();
+// });
+
 app.on('ready', function() {
-  // Cria a janela do browser.
+  // Crear la ventana del navegador.
   mainWindow = new BrowserWindow({
     width: 1600,
     height: 700,
@@ -33,13 +44,13 @@ app.on('ready', function() {
   // });
   
   mainWindow.setMenu(null)
-  // Carrega o arquivo html principal.
+  // Cargar el archivo html principal.
   mainWindow.loadURL('file://' + __dirname + '/index.html');
 
   // aber o DevTools. (console, inspecionar elemento, etc)
    mainWindow.webContents.openDevTools(); 
 
-  // Evento emitido quando a janela é fechada, usado para destruir instancia.
+  // Evento generado cuando se cierra la ventana, utilizada para destruir la instancia.
   mainWindow.on('closed', function() {
     mainWindow = null;
   });

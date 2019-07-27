@@ -1,5 +1,5 @@
 {
-  "name": "j-consultorio",
+  "name": "Pix",
   "version": "1.0.0",
   "description": "App para consultorios médicos.",
   "main": "main.js",
@@ -14,7 +14,7 @@
     "win64": "electron-packager . myApp --platform=win32 --arch=x64",
     "linux32": "electron-packager . myApp --platform=linux --arch=ia32",
     "linux64": "electron-packager . myApp --platform=linux --arch=x64",
-    "osx": "electron-packager . myApp --platform=darwin --arch=x64",
+    "osx": "electron-packager . myApp --platform=darwin --arch=x64 --icon assets/icons/clinic.icns --overwrite",
     "build": "electron-packager . --all",
     "mono": "electron-installer-dmg ./release-builds/Electron\\ tutorial\\ app-darwin-x64/Electron\\ tutorial\\ app.app electron-tutorial-app",
     "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds",

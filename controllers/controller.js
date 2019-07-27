@@ -24,6 +24,8 @@ app.controller("pacienteController", function ($scope, $routeParams, dbService, 
 	var slashFolder = remote.getGlobal('configuracion').slashFolder;
 	var idPaciente = ($routeParams.id) ? parseInt($routeParams.id) : 0;
 	var original;
+	
+	$scope.hasChanges = false;
 
 	$scope.buscarImagenes = function (dni) {
 		var myDir = __dirname + imgFolder + dni;
@@ -140,6 +142,7 @@ app.controller("pacienteController", function ($scope, $routeParams, dbService, 
 		var msg, rows_modified;
 		$scope.paciente.evolucion = html.escape($("#evolucion").trumbowyg('html'));
 		$scope.paciente.motivo_consulta = html.escape($("#motivo").trumbowyg('html'));
+		
 		if ($scope.paciente.id !== undefined && $scope.paciente.id !== 0) {
 			var id = $scope.paciente.id;
 			rows_modified = dbService.update('pacientes', $scope.paciente, {
@@ -148,11 +151,12 @@ app.controller("pacienteController", function ($scope, $routeParams, dbService, 
 
 			if (rows_modified) {
 				msg = "Cambios Guardados";
+				$scope.hasChanges = false;
 			} else {
 				msg = "los cambios NO se guardaron";
 			}
 			$scope.mostrarTostada(msg);
-
+			console.log("$scope.hasChanges " + $scope.hasChanges)
 		} else {
 			var myDir = __dirname + imgFolder + $scope.paciente.documento;
 
@@ -161,11 +165,13 @@ app.controller("pacienteController", function ($scope, $routeParams, dbService, 
 					fs.mkdirSync(myDir)
 				}
 			} catch (err) {
+				// agregar alert
 				console.error(err)
 			}
 			$scope.imagenes = [];
 			var tmpId = dbService.insert('pacientes', $scope.paciente);
 			$scope.paciente.id = tmpId;
+			$scope.hasChanges = false;
 		}
 	}
 
@@ -215,7 +221,6 @@ app.controller("pacienteController", function ($scope, $routeParams, dbService, 
 	}
 
 	angular.element(document).ready(function () {
-
 		$('#editar-paciente').on('hidden.bs.modal', function (e) {
 			if ($scope.paciente.id == 0) {
 				$timeout(function () {
@@ -223,6 +228,8 @@ app.controller("pacienteController", function ($scope, $routeParams, dbService, 
 				}, 200);
 			}
 		})
+
+		
 
 		$("#motivo").trumbowyg({
 			lang: 'es',
@@ -237,26 +244,9 @@ app.controller("pacienteController", function ($scope, $routeParams, dbService, 
 				['unorderedList', 'orderedList'],
 				['horizontalRule'],
 				['fullscreen'],
-				['fechar'],
-				['guardar'],
+				['fechar']
 			],
 			btnsDef: {
-				guardar: {
-					fn: function () {
-						$scope.salvar();
-					},
-					tag: 'tagName',
-					title: 'Guardar',
-					text: 'Guardar',
-					isSupported: function () {
-						return true;
-					},
-					key: 'G',
-					param: '',
-					forceCSS: false,
-					class: '',
-					hasIcon: false
-				},
 				fechar: {
 					fn: function () {
 						$scope.fechar('motivo');
@@ -289,26 +279,9 @@ app.controller("pacienteController", function ($scope, $routeParams, dbService, 
 				['unorderedList', 'orderedList'],
 				['horizontalRule'],
 				['fullscreen'],
-				['fechar'],
-				['guardar']
+				['fechar']
 			],
 			btnsDef: {
-				guardar: {
-					fn: function () {
-						$scope.salvar();
-					},
-					tag: 'tagName',
-					title: 'Guardar',
-					text: 'Guardar',
-					isSupported: function () {
-						return true;
-					},
-					key: 'K',
-					param: '',
-					forceCSS: false,
-					class: '',
-					hasIcon: false
-				},
 				fechar: {
 					fn: function () {
 						$scope.fechar('evolucion');
@@ -329,6 +302,26 @@ app.controller("pacienteController", function ($scope, $routeParams, dbService, 
 		});
 	})
 
+
+$("#motivo").trumbowyg()
+	.on('tbwchange', function () {
+		console.log("motivo cambia")
+		$scope.hasChanges=true;
+		$scope.$apply();
+	})
+
+
+$("#evolucion").trumbowyg()
+	.on('tbwchange', function () {
+		console.log("evolucion cambia")
+		$scope.hasChanges = true;
+		$scope.$apply();
+
+	})
+
+	// ***************************
+	// detecta si agrega paciente nuevo o edita un paciente para agregar información
+	// ***************************
 	if (idPaciente == 0) {
 		// si agrega paciente 
 		$('#editar-paciente').modal();
@@ -348,6 +341,45 @@ app.controller("pacienteController", function ($scope, $routeParams, dbService, 
 			$("#evolucion").html(html.unescape(evolucion));
 		});
 	}
+
+
+
+$scope.$on("$locationChangeStart", function (event, next) {
+	console.log('mono ' + $scope.hasChanges)
+	console.log(next)
+
+	var tmp = next.split("#!");
+	console.log(tmp[1])
+
+	// if ($scope.form.$dirty && !confirm('You have unsaved changes, go back?'))
+		if($scope.hasChanges){
+			event.preventDefault();
+			swal({
+					title: "¿Sale sin guardar los cambios?",
+					text: "Perderá los últimos cambios realizados",
+					type: "warning",
+					showCancelButton: true,
+					confirmButtonClass: "btn-danger",
+					cancelButtonText: "No",
+					confirmButtonText: "Sí, salgo sin guardar",
+					closeOnConfirm: true,
+					closeOnCancel: true
+				},
+				function (isConfirm) {
+					if (isConfirm) {
+						$scope.hasChanges=false;
+						$timeout(function () {
+							$location.path(tmp[1]);
+						}, 200);
+					} 
+				});
+
+		}
+		
+});
+
+
+
 })
 
 

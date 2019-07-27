@@ -4,7 +4,7 @@
 
 <!-- Tostada -->
 <div id="tostada" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000"
-  style="position: absolute; top: 1rem; right: 1rem;">
+  style="position: absolute; top: 1rem; right: 4rem;">
   <div class="toast-header">
     <i class="fas fa-clinic-medical fa-1x iconcolor1"></i>
     <strong class="mr-auto">&nbsp; Sistema</strong>
@@ -18,10 +18,19 @@
 </div>
 
   <!-- Tarjeta -->
-  <div class="card-header">
-    {{paciente.apellido}}, {{paciente.nombre}} <button class="btn btn-sm iconcolor3" ng-click="editarPaciente()"><i
+  <div class="card-header container-fluid">
+    <div class="row">
+
+      <div class="col-md-11">
+      {{paciente.apellido}}, {{paciente.nombre}} <button class="btn btn-sm iconcolor3" ng-click="editarPaciente()" title="Editar datos del paciente"><i
         class="fas fa-pencil-alt"></i>
-    </button>
+      </button>
+      </div>
+      <div class="col-md-1 float-right">
+      <button class="btn btn-default" ng-disabled="!hasChanges" href="" ng-click="salvar()" title="Guardar cambios."><i
+          class="fas fa-save fa-2x iconcolor3"></i></a>
+      </div>
+    </div>
   </div>
   <div class="card-body">
     <nav>
