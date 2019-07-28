@@ -76,9 +76,13 @@
               <div id="imgcont" ng-repeat="imagen in imagenes" ng-click="seleccionar('imagen-'+$index)"
                 context-menu="menuOptions">
 
+                <!-- efecto hover image -->
+                <!-- ng-class="{bgcolor2: hover}"
+                ng-mouseenter="hover = true"
+                ng-mouseleave="hover = false" -->
 
-
-                <div class="card imagenes" ng-dblclick="abrirArchivo(mydir+slashFolder+imagen)">
+                <div class="card imagenes" 
+                ng-dblclick="abrirArchivo(mydir+slashFolder+imagen)">
                   <img id="imagen-{{$index}}" ng-src="{{mydir}}{{slashFolder}}{{imagen}}"
                     ng-show="isImage(imagen.substring(imagen.lastIndexOf('.') + 1))"
                     class="col-xs-4 img-fluid img-thumbnail" alt="">
@@ -107,7 +111,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Editar Paciente</h5>
+        <h5 class="modal-title" id="exampleModalLabel">{{tituloModal}}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -128,10 +132,11 @@
           </div>
           <div class="form-group">
             <label for="documento" class="col-form-label">Documento:</label>
-            <input disallow-spaces ng-keyup="checarDocumento(paciente.documento)" type="text"
+            <input ng-disabled="edicion" disallow-spaces ng-keyup="checarDocumento(paciente.documento)" type="text"
               ng-model="paciente.documento" class="form-control" name="documento"
               required />
-              <span class="error" ng-show="existeUsuario">Ya existe el DNI</span>
+              <span class="error" ng-show="digitosDocumento">El documento debe contener al menos 7 dígitos.  </span>
+              <span class="error" ng-show="existeUsuario">Ya existe el DNI.  </span>
             <span class="error"  ng-show="myForm.documento.$error.required">El Documento es
               obligatorio</span>
           </div>
@@ -140,7 +145,8 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="cancelarEdicion()">Cerrar</button>
         <button type="button" class="btn btn-primary" 
-          ng-disabled="isClean() || myForm.$invalid || existeUsuario" ng-click="modificarPaciente()">Aceptar</button>
+          ng-disabled="isClean() || myForm.$invalid || existeUsuario || digitosDocumento"
+          ng-click="modificarPaciente()">Aceptar</button>
       </div>
     </div>
   </div>

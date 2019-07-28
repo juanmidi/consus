@@ -40,13 +40,23 @@ app.controller("pacienteController", function ($scope, $routeParams, dbService, 
 		$scope.slashFolder = slashFolder;
 	}
 
+	// Para seleccionar las imágenes en caso de realizar operaciones
+	// con los archivos
+	// No implementado
+	// -------------------------------------------------------------
 	$scope.seleccionar = function (id) {
 		console.log(id)
-		if ($('#' + id).parent().hasClass('bgcolor2')) {
-			$('#' + id).parent().removeClass('bgcolor2');
-		} else {
-			$('#' + id).parent().addClass('bgcolor2');
-		}
+
+		// $('.card').find('*').removeClass('bgcolor2');
+		// $('#' + id).parent().addClass('bgcolor2');
+
+
+		// if ($('#' + id).parent().hasClass('bgcolor2')) {
+		// 	$('#' + id).parent().removeClass('bgcolor2');
+		// } else {
+		// 	$('#' + id).parent().addClass('bgcolor2');
+		// }
+
 	}
 
 	$scope.isImage = function (ext) {
@@ -94,6 +104,17 @@ app.controller("pacienteController", function ($scope, $routeParams, dbService, 
 			}
 		},
 		{
+			text: 'Abrir en Carpeta',
+			click: function ($itemScope, $event, modelValue, text, $li) {
+				var folder = __dirname + imgFolder + $scope.paciente.documento;
+				remote.shell.openItem(folder);
+
+				// $timeout(function () {
+
+				// }, 500);
+			}
+		},
+		{
 			text: 'Borrar',
 			click: function ($itemScope, $event, modelValue, text, $li) {
 				console.log($itemScope.imagen)
@@ -129,6 +150,7 @@ app.controller("pacienteController", function ($scope, $routeParams, dbService, 
 			}
 			$timeout(function () {
 				$scope.buscarImagenes(documento);
+				$scope.mostrarTostada('Se guardaron las imágenes');
 			}, 500);
 		})
 	}
@@ -177,7 +199,10 @@ app.controller("pacienteController", function ($scope, $routeParams, dbService, 
 
 	$scope.checarDocumento = function (documento) {
 			if (documento == undefined || documento == '' || documento.length < 7) {
+				$scope.digitosDocumento = true;
 				return;
+			} else {
+				$scope.digitosDocumento = false;
 			}
 			dbService.runAsync("SELECT documento FROM pacientes WHERE documento=" + documento, function (data) {
 				var res = data[0] === undefined ? undefined : data[0].documento;
@@ -207,7 +232,7 @@ app.controller("pacienteController", function ($scope, $routeParams, dbService, 
 	}
 
 	$scope.cancelarEdicion = function () {
-		if (idPaciente !== 0) {
+		if (idPaciente !== 0 || idPaciente !== undefined) {
 			$scope.paciente.nombre = angular.copy(original.nombre);
 			$scope.paciente.apellido = angular.copy(original.apellido);
 			$scope.paciente.documento = angular.copy(original.documento);
@@ -222,7 +247,7 @@ app.controller("pacienteController", function ($scope, $routeParams, dbService, 
 
 	angular.element(document).ready(function () {
 		$('#editar-paciente').on('hidden.bs.modal', function (e) {
-			if ($scope.paciente.id == 0) {
+			if ($scope.paciente == undefined || $scope.paciente.id == undefined) {
 				$timeout(function () {
 					$location.path('/');
 				}, 200);
@@ -324,9 +349,12 @@ $("#evolucion").trumbowyg()
 	// ***************************
 	if (idPaciente == 0) {
 		// si agrega paciente 
+		$scope.tituloModal = 'Nuevo Paciente';
 		$('#editar-paciente').modal();
 	} else {
 		// carga el paciente por su ID
+		$scope.tituloModal = 'Editar Paciente';
+		$scope.edicion=true;
 		dbService.runAsync("SELECT * FROM pacientes WHERE id=" + idPaciente, function (data) {
 			// $scope.paciente = data[0];
 			original = data[0];
