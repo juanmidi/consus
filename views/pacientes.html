@@ -1,44 +1,46 @@
-<div class="row">
-	<!-- <div class="col-md-8">
-		<button class="btn btn-primary" data-toggle="modal" data-target="#modalPaciente"><span
-				class="glyphicon glyphicon-plus"></span><i class="fas fa-plus"></i> Paciente</button>
-	</div> -->
-	<div class="col-md-4">
-		<input class="form-control" placeholder="buscar" ng-model="buscar">
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-3"></div>
+		<div class="col-md-4">
+			<input class="form-control" placeholder="buscar" ng-model="buscar">
+		</div>
+		<div class="col-md-3"></div>
+	</div>
+	<br>
+	<div class="row">
+		<div class="col-md-3"></div>
+		<div class="col-md-6">
+			<table class="table table-sm table-striped" ng-init="listaPacientes()">
+				<thead>
+					<th>Paciente</th>
+					<th>Acción</th>
+				</thead>
+				<tbody>
+					<!-- Lista -->
+					<tr dir-paginate="paciente in pacientes|filter:buscar|itemsPerPage:8">
+						<td>
+							<a href="" ng-click="getPaciente(paciente.id)">{{paciente.apellido}}, {{paciente.nombre}}</a>
+							<br><small class="text-muted"> {{paciente.documento}}</small>
+						<td class="text-center">
+							<button class="btn btn-sm" ng-click="borrar(paciente.id, paciente.apellido, paciente.nombre)"><i
+									class="fas fa-trash-alt iconcolor3"></i></button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="col-md-3"></div>
+	</div>
+	<!-- Paginación -->
+	<div class="row justify-content-md-center">
+		<div class="col-md-3"></div>
+		<div class="col-md-auto">
+			<dir-pagination-controls>
+			</dir-pagination-controls>
+		</div>
+		<div class="col-md-3"></div>
 	</div>
 </div>
-<hr>
-<div class="row">
-	<div class="col-md-12">
-		<table class="table table-striped" ng-init="listaPacientes()">
-			<thead>
-				<th>Apellido</th>
-				<th>Nombre</th>
-			</thead>
-			<tbody>
-				<!-- Listagem -->
-				<tr dir-paginate="paciente in pacientes|filter:buscar|itemsPerPage:8">
-					<td>{{paciente.apellido}}</td>
-					<td>{{paciente.nombre}}</td>
-					<td>
-						<button class="btn btn-info btn-xs" ng-click="editar(paciente)"><span class="glyphicon glyphicon-pencil"></span>
-							Editar</button>
-						<button class="btn btn-danger btn-xs" ng-click="excluir(paciente)"><span class="glyphicon glyphicon-trash"></span>
-							Borrar</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-</div>
-<!-- Paginação -->
-<div class="row">
-	<div class="col-md-12 text-center">
-		<dir-pagination-controls>
-	    </dir-pagination-controls>
-	</div>
-</div>
-
 <!-- Modal Cadastro e Edição -->
 <!-- <div class="modal fade" id="modalPaciente" tabindex="-1" role="dialog" >
 	<div class="modal-dialog" role="document">

@@ -14,10 +14,26 @@ app.controller("inicioController", function ($scope, $location, dbService) {
 		$location.path('/paciente/' + idPaciente);
 	};
 
+	$scope.clean = function () {
+		$("#buscar").val('');
+	};
+
 	angular.element(document).ready(function () {
 		$("#buscar").focus();
 	});
 });
+
+app.controller("mainController", function ($scope, $window) {
+	$scope.atras = function () {
+		$window.history.back();
+		console.log("atras")
+	}
+
+	$scope.adelante = function () {
+		$window.history.forward();
+		console.log("adelante")
+	}
+})
 
 app.controller("pacienteController", function ($scope, $routeParams, dbService, $timeout, $location) {
 	var imgFolder = remote.getGlobal('configuracion').imgFolder;
@@ -117,13 +133,30 @@ app.controller("pacienteController", function ($scope, $routeParams, dbService, 
 		{
 			text: 'Borrar',
 			click: function ($itemScope, $event, modelValue, text, $li) {
-				console.log($itemScope.imagen)
-				var file = __dirname + imgFolder + $scope.paciente.documento + slashFolder + $itemScope.imagen;
-				fs.unlinkSync(file);
+				swal({
+						title: "¿Estás seguro?",
+						text: "El archivo será eliminado!",
+						type: "warning",
+						showCancelButton: true,
+						confirmButtonClass: "btn-danger",
+						confirmButtonText: "Sí",
+						cancelButtonText: "No",
+						closeOnConfirm: true,
+						closeOnCancel: true
+					},
+					function (isConfirm) {
+						if (isConfirm) {
+							console.log($itemScope.imagen)
+							var file = __dirname + imgFolder + $scope.paciente.documento + slashFolder + $itemScope.imagen;
+							fs.unlinkSync(file);
 
-				$timeout(function () {
-					$scope.buscarImagenes($scope.paciente.documento);
-				}, 500);
+							$timeout(function () {
+								$scope.buscarImagenes($scope.paciente.documento);
+							}, 500);
+						} 
+					});
+					
+				
 			}
 		}
 	];
@@ -159,12 +192,29 @@ app.controller("pacienteController", function ($scope, $routeParams, dbService, 
 		remote.shell.openItem(path);
 	}
 
+	// $scope.popo = function () {
+	// 	console.log($("#evolucion").html());
+	// 	console.log($("#motivo").html());
+	// 	console.log($("#antecedentes").html());
+	// }
+
 	//Salvando
 	$scope.salvar = function () {
 		var msg, rows_modified;
-		$scope.paciente.evolucion = html.escape($("#evolucion").trumbowyg('html'));
-		$scope.paciente.motivo_consulta = html.escape($("#motivo").trumbowyg('html'));
 		
+		$scope.paciente.evolucion = html.escape($("#evolucion").html());
+		$scope.paciente.motivo_consulta = html.escape($("#motivo").html());
+		$scope.paciente.antecedentes = html.escape($("#antecedentes").html());
+		
+		// desactivado porque no actualiza
+		// $scope.paciente.evolucion = html.escape($("#evolucion").trumbowyg('html'));
+		// $scope.paciente.motivo_consulta = html.escape($("#motivo").trumbowyg('html'));
+		// $scope.paciente.antecedentes = html.escape($("#antecedentes").trumbowyg('html'));
+				
+		console.log("$scope.paciente después de asig")
+
+		console.log($scope.paciente)
+
 		if ($scope.paciente.id !== undefined && $scope.paciente.id !== 0) {
 			var id = $scope.paciente.id;
 			rows_modified = dbService.update('pacientes', $scope.paciente, {
@@ -291,6 +341,41 @@ app.controller("pacienteController", function ($scope, $routeParams, dbService, 
 			}
 		});
 
+		$("#antecedentes").trumbowyg({
+			lang: 'es',
+			semantic: true,
+			removeformatPasted: true,
+			btns: [
+				['viewHTML'],
+				['undo', 'redo'], // Only supported in Blink browsers
+				['formatting'],
+				['strong', 'em'],
+				['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
+				['unorderedList', 'orderedList'],
+				['horizontalRule'],
+				['fullscreen'],
+				['fechar']
+			],
+			btnsDef: {
+				fechar: {
+					fn: function () {
+						$scope.fechar('antecedentes');
+					},
+					tag: 'fechar',
+					title: 'Fechar',
+					text: 'Fechar',
+					isSupported: function () {
+						return true;
+					},
+					key: 'H',
+					param: '',
+					forceCSS: false,
+					class: '',
+					hasIcon: false
+				}
+			}
+		});
+
 		$("#evolucion").trumbowyg({
 			lang: 'es',
 			semantic: true,
@@ -325,6 +410,10 @@ app.controller("pacienteController", function ($scope, $routeParams, dbService, 
 				}
 			}
 		});
+	
+	
+	
+	
 	})
 
 
@@ -335,13 +424,18 @@ $("#motivo").trumbowyg()
 		$scope.$apply();
 	})
 
+$("#antecedentes").trumbowyg()
+	.on('tbwchange', function () {
+		console.log("antecedentes cambia")
+		$scope.hasChanges = true;
+		$scope.$apply();
+	})
 
 $("#evolucion").trumbowyg()
 	.on('tbwchange', function () {
 		console.log("evolucion cambia")
 		$scope.hasChanges = true;
 		$scope.$apply();
-
 	})
 
 	// ***************************
@@ -360,13 +454,17 @@ $("#evolucion").trumbowyg()
 			original = data[0];
 			// original._id = AlumnoID;
 			$scope.paciente = angular.copy(original);
-
+			
+			console.log('inicio')
+			console.log($scope.paciente)
 			$scope.buscarImagenes($scope.paciente.documento);
 			//carga los datos en motivo de consulta
 			var motivo = $scope.paciente.motivo_consulta === null ? '' : $scope.paciente.motivo_consulta;
+			var antecedentes = $scope.paciente.antecedentes === null ? '' : $scope.paciente.antecedentes;
 			var evolucion = $scope.paciente.evolucion === null ? '' : $scope.paciente.evolucion;
 			$("#motivo").html(html.unescape(motivo));
 			$("#evolucion").html(html.unescape(evolucion));
+			$("#antecedentes").html(html.unescape(antecedentes));
 		});
 	}
 
@@ -415,10 +513,39 @@ app.controller("configController", function ($scope, $location, dbService) {
 
 })
 
-app.controller("pacientesController", function ($scope, $location, dbService) {
+app.controller("pacientesController", function ($scope, $location, dbService, $timeout) {
 	$scope.listaPacientes = function () {
 		dbService.runAsync("SELECT * FROM pacientes", function (data) {
 			$scope.pacientes = data;
 		});
+	}
+
+	$scope.getPaciente = function (idPaciente) {
+		$location.path('/paciente/' + idPaciente);
+	};
+
+	$scope.borrar = function (idPaciente, apell, nombre ) {
+		if (idPaciente !== undefined) {
+			swal({
+					title: "¿Estás seguro?",
+					text: "El paciente '" + apell + ", " + nombre + "' será eliminado y NO se podrá recuperar",
+					type: "warning",
+					showCancelButton: true,
+					confirmButtonClass: "btn-danger",
+					confirmButtonText: "Sí",
+					cancelButtonText: "No",
+					closeOnConfirm: true,
+					closeOnCancel: true
+				},
+				function (isConfirm) {
+					if (isConfirm) {
+						dbService.run("DELETE FROM pacientes WHERE id=" + idPaciente);
+						console.log(idPaciente);
+						$timeout(function () {
+							$scope.listaPacientes();
+						}, 200);
+					}
+				});
+		}		
 	}
 });

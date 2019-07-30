@@ -1,4 +1,4 @@
-<html ng-app="cdg">
+<html ng-app="cdg" ng-controller="mainController">
 	<head>
 		<title>Pix</title>
 		<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
@@ -75,6 +75,9 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 	<a class="navbar-brand" href="#!"><i class="fas fa-clinic-medical fa-2x iconcolor1"></i></a>
+	<span class="lead">Consus</span>
+	<!-- <a class="nav-link" href="" ng-click="atras()"><i class="fas fa-arrow-left iconcolor3"></i></a>
+	<a class="nav-link" href="" ng-click="adelante()"><i class="fas fa-arrow-right iconcolor3"></i></a> -->
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
 		aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
@@ -96,7 +99,7 @@
 			</li> -->
 		</ul>
 		<ul class="navbar-nav ml-auto">
-			<li class="nav-item">
+			<li class="nav-item dropdown">
 				<a class="nav-link"  href="#!/config"><i class="fas fa-cog iconcolor3"></i></a>
 			</li>
 		</ul>
