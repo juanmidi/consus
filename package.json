@@ -14,12 +14,12 @@
     "win64": "electron-packager . myApp --platform=win32 --arch=x64",
     "linux32": "electron-packager . myApp --platform=linux --arch=ia32",
     "linux64": "electron-packager . myApp --platform=linux --arch=x64",
-    "osx": "electron-packager . myApp --platform=darwin --arch=x64 --icon assets/icons/clinic.icns --overwrite",
     "build": "electron-packager . --all",
     "mono": "electron-installer-dmg ./release-builds/Electron\\ tutorial\\ app-darwin-x64/Electron\\ tutorial\\ app.app electron-tutorial-app",
     "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds",
     "package-win": "electron-packager . electron-tutorial-app --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Electron Tutorial App\"",
-    "dmg": "electron-installer-dmg ./myApp-darwin-x64/myApp.app myApp"
+    "osx": "electron-packager . Consus --platform=darwin --arch=x64 --icon assets/icons/clinic3.icns --overwrite",
+    "dmg": "electron-installer-dmg ./Consus-darwin-x64/Consus.app Consus"
   },
   "devDependencies": {
     "angular": "^1.7.8",
