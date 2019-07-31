@@ -33,4 +33,11 @@ app.config(function ($routeProvider) {
 				requiredLogin: false
 			}
 		})
+		.when("/ayuda", {
+			templateUrl: "views/ayuda.html",
+			controller: "ayudaController",
+			access: {
+				requiredLogin: false
+			}
+		})
 });

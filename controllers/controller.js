@@ -23,7 +23,7 @@ app.controller("inicioController", function ($scope, $location, dbService) {
 	});
 });
 
-app.controller("mainController", function ($scope, $window) {
+app.controller("mainController", function ($scope, $window, dbService) {
 	$scope.atras = function () {
 		$window.history.back();
 		console.log("atras")
@@ -33,6 +33,34 @@ app.controller("mainController", function ($scope, $window) {
 		$window.history.forward();
 		console.log("adelante")
 	}
+
+	$scope.optimizarDb = function () {
+			
+		swal({
+				title: "Optimizar la base de datos?",
+				text: "Esto mejorará la performance de la app",
+				type: "info",
+				showCancelButton: true,
+				confirmButtonText: "Sí",
+				cancelButtonText: "No",
+				closeOnConfirm: false,
+				closeOnCancel: true
+			},
+			function (isConfirm) {
+				if (isConfirm) {
+					var sql = "vacuum";
+					dbService.runAsync(sql, function (data) {
+						console.log(data);
+						if(data===true){
+							swal("Hecho"," db optimizada", "success");
+						} else {
+							swal("Error compactando");
+						}
+					})
+				}
+			});
+	}
+
 })
 
 app.controller("pacienteController", function ($scope, $routeParams, dbService, $timeout, $location) {
@@ -509,7 +537,11 @@ $scope.$on("$locationChangeStart", function (event, next) {
 })
 
 
-app.controller("configController", function ($scope, $location, dbService) {
+app.controller("configController", function ($scope) {
+
+})
+
+app.controller("ayudaController", function ($scope) {
 
 })
 
