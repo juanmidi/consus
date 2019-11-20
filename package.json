@@ -22,7 +22,7 @@
     "dmg": "electron-installer-dmg ./Consus-darwin-x64/Consus.app Consus"
   },
   "devDependencies": {
-    "angular": "^1.7.8",
+    "angular": "^1.7.9",
     "angular-route": "^1.5.1",
     "angular-utils-pagination": "^0.11.0",
     "electron-builder": "^20.44.4",
