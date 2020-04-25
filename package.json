@@ -29,7 +29,7 @@
     "electron-installer-dmg": "^3.0.0",
     "electron-packager": "^6.0.0",
     "electron-prebuilt": "^0.36.0",
-    "jquery": "^2.2.2",
+    "jquery": "^3.4.1",
     "sqlite-sync": "^0.2.1"
   },
   "dependencies": {
